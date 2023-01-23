@@ -1,5 +1,5 @@
 # enswap
-For Linux require to install [.NET 7.0](https://dotnet.microsoft.com/download)
+For Linux; require to install [.NET 7.0](https://dotnet.microsoft.com/download)
 
 swapfile expander linux service. If Linux has less than 1.5 GB available memory, it allocate new swap
 
