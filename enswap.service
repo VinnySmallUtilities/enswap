@@ -1,0 +1,18 @@
+# /lib/systemd/system/enswap.service
+[Unit]
+Description=Enable swap (automatic swap expander)
+After=netfilter-persistent.service
+
+[Service]
+# WorkingDirectory=/home/vinny/_/Privoxy_МСЭ/_ServicesFiles/
+WorkingDirectory=/Arcs/Repos/smalls/enswap/
+
+User=root
+Group=root
+
+Type=exec
+ExecStart=/G/enswap /G/options
+SuccessExitStatus=0
+
+[Install]
+WantedBy=multi-user.target
