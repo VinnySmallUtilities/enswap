@@ -19,10 +19,10 @@ first executing:
 
 
 let's see the created "options" file and correct it
-    first string:  parameter for file length for single swap file (format for "fallocate" program)
-    second string: parameter for available memory (in Mb)
-    third string:  a file path template for swap files
-    fourth string: sdel utility path (https://github.com/VinnySmallUtilities/sdel)
+* first string:  parameter for file length for single swap file (format for "fallocate" program)
+* second string: parameter for available memory (in Mb)
+* third string:  a file path template for swap files
+* fourth string: sdel utility path (https://github.com/VinnySmallUtilities/sdel)
 
 
 second executing:
