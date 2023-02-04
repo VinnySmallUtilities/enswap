@@ -42,7 +42,7 @@ class MainClass
         optionsFileName.Refresh();
         if (!optionsFileName.Exists)
         {
-            File.WriteAllText(optionsFileName.FullName, "4G\n1536\n/Arcs/swapfile\n/G/sdel\n");
+            File.WriteAllText(optionsFileName.FullName, "4G\n1536\n/Arcs/swapfile\n/usr/local/sbin/sdel\n");
             Console.Error.WriteLine("Options file created. See it and let's correct");
 
             return 2;

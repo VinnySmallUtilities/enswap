@@ -11,8 +11,9 @@ User=root
 Group=root
 
 Type=exec
-ExecStart=/G/enswap /G/options
+ExecStart=/usr/local/sbin/enswap /Arcs/Repos/smalls/enswap/options
 SuccessExitStatus=0
 
 [Install]
 WantedBy=multi-user.target
+
