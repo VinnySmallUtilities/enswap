@@ -11,9 +11,12 @@ User=root
 Group=root
 
 Type=exec
-ExecStart=/usr/local/sbin/enswap /Arcs/Repos/smalls/enswap/options
+# Type=simple
+ExecStart=nice -n -1 /usr/local/sbin/enswap /Arcs/Repos/smalls/enswap/options
 SuccessExitStatus=0
+
+# ExecStartPost=ionice -c 2 -n 0 -p `pidof enswap`
+
 
 [Install]
 WantedBy=multi-user.target
-
