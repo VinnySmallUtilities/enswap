@@ -67,10 +67,11 @@ class MainClass
 
         bool outputStatisticToConsole = false;
 
+        var kTime = 1f;
         while (exec)
         {
             Dict.Clear();
-            Thread.Sleep(rnd.Next(56, intervalForCheck));
+            Thread.Sleep(rnd.Next(500, (int)( intervalForCheck*kTime ) ));
             if (!exec)
                 break;
 
@@ -105,6 +106,20 @@ class MainClass
 
                 outputStatisticToConsole = false;
                 Thread.Sleep(intervalForCheck);
+
+                kTime = 1f;
+            }
+            else
+            {
+                if (totalFree - freeM > freeM)
+                {
+                    kTime = 3f;  // Общее количество свободной памяти делим на требуемое количество свободной памяти
+                }
+                else
+                if (totalFree - freeM < freeM >> 1)
+                    kTime = 0.5f;
+                else
+                    kTime = 1f;
             }
         }
 
