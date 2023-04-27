@@ -111,15 +111,11 @@ class MainClass
             }
             else
             {
-                if (totalFree - freeM > freeM)
-                {
-                    kTime = 3f;  // Общее количество свободной памяти делим на требуемое количество свободной памяти
-                }
-                else
-                if (totalFree - freeM < freeM >> 1)
-                    kTime = 0.5f;
-                else
-                    kTime = 1f;
+                // Общее количество свободной памяти делим на требуемое количество свободной памяти
+                kTime = (float) (totalFree - freeM) / (float) freeM;
+
+                if (kTime < 0.25f)
+                    kTime = 0.25f;
             }
         }
 
