@@ -71,7 +71,7 @@ class MainClass
         while (exec)
         {
             Dict.Clear();
-            Thread.Sleep(rnd.Next(500, (int)( intervalForCheck*kTime ) ));
+            Thread.Sleep((int)( intervalForCheck*kTime ) + rnd.Next(32, 128));
             if (!exec)
                 break;
 
