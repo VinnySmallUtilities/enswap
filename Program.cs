@@ -58,6 +58,7 @@ class MainClass
         var sdel  = optionsStrings[3];
 
         baseIntervalForCheck = Int32.Parse(optionsStrings[4]);
+        intervalForCheck     = baseIntervalForCheck;
 
         deleteAllSwaps(swapF, sdel);
 
@@ -100,6 +101,7 @@ class MainClass
                     if (line.StartsWith(captureStr, StringComparison.InvariantCulture))
                     {
                         Dict.Add(captureStr, ParseValue(line));
+                        break;
                     }
 
                 if (Dict.Count >= captureStrs.Length)
@@ -145,6 +147,9 @@ class MainClass
                 {
                     ifc = baseIntervalForCheck;
                 }
+                else
+                    ifc = baseIntervalForCheck;
+
 
                 if (ifc != 0)
                     if (intervalForCheck != ifc)
