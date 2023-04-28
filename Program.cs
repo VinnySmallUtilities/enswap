@@ -136,13 +136,13 @@ class MainClass
                     ifc = baseIntervalForCheck >> 2;
                 }
                 else
-                // Если осталось меньше двух запасов
+                // Если осталось меньше одного запаса
                 if (totalFree <= freeM << 1)
                 {
                     ifc = baseIntervalForCheck >> 1;
                 }
                 else
-                // Если осталось больше двух с половиной запасов
+                // Если осталось больше 1,5 с половиной запасов
                 if (totalFree - (freeM >> 1) <= freeM << 1)
                 {
                     ifc = baseIntervalForCheck;
