@@ -23,6 +23,7 @@ let's see the created "options" file and correct it
 * second string: parameter for available memory (in Mb)
 * third string:  a file path template for swap files
 * fourth string: sdel utility path (https://github.com/VinnySmallUtilities/sdel)
+* 5: interval for the memory control cycle. In ms
 
 
 second executing:
