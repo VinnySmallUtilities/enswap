@@ -11,7 +11,7 @@ swapfile expander linux service. If Linux has less than 1.5 GB available memory,
 
 
 ## Executing
-Let's correct the "enswap.service" file
+Let's correct the "enswap.service" file and "options" file
 
 
 first executing:

@@ -23,8 +23,9 @@ class MainClass
     static string[] captureStrs = new string[] { "MemTotal:", "MemAvailable:", "SwapTotal:", "SwapFree:" };
     static Random   rnd         = new Random();
 
-    const string    errorFileName      = "error.log";
-    const int       intervalForCheck   = 500;
+    const  string    errorFileName        = "error.log";
+    static int       baseIntervalForCheck = 500;
+    static int       intervalForCheck     = baseIntervalForCheck;
     public static int Main(string[] args)
     {
         if (args.Length != 1)
@@ -56,6 +57,8 @@ class MainClass
         var swapF = optionsStrings[2];
         var sdel  = optionsStrings[3];
 
+        baseIntervalForCheck = Int32.Parse(optionsStrings[4]);
+
         deleteAllSwaps(swapF, sdel);
 
         var exec = true;
@@ -63,17 +66,30 @@ class MainClass
         Console.CancelKeyPress += (sender, e) => exec = false;
         AppDomain.CurrentDomain.ProcessExit += (sender, e) => exec = false;
 
-        Console.WriteLine($"strated. '{swapL}'; '{freeM}'; '{swapF}'; '{sdel}'.");
+        Console.WriteLine($"strated. '{swapL}'; '{freeM}'; '{swapF}'; '{sdel}'; {baseIntervalForCheck}.");
 
         bool outputStatisticToConsole = false;
 
-        var kTime = 1f;
         while (exec)
         {
+            outputStatisticToConsole = ProcessMemory();
+            GC.Collect();
+        }
+
+        Console.WriteLine("exiting");
+        var pid = Process.Start("swapoff", "-a");
+        pid.WaitForExit();
+
+        deleteAllSwaps(swapF, sdel);
+
+        return 0;
+
+        bool ProcessMemory()
+        {
             Dict.Clear();
-            Thread.Sleep((int)( intervalForCheck*kTime ) + rnd.Next(32, 128));
+            Thread.Sleep(intervalForCheck + rnd.Next(0, 56));
             if (!exec)
-                break;
+                return false;
 
             // System.Diagnostics.Process.Start("free");
             var memInfoLines = File.ReadAllLines("/proc/meminfo");
@@ -93,7 +109,7 @@ class MainClass
             var totalFree = Dict[captureStrs[1]] + Dict[captureStrs[3]];
             if (!outputStatisticToConsole)
             {
-                Console.WriteLine($"Statistic of memory: available {Dict[captureStrs[1]]}; {Dict[captureStrs[3]]}; {totalFree}; require {freeM}");
+                Console.WriteLine($"Statistic of memory: available {Dict[captureStrs[1]]}; total free: {totalFree}; {Dict[captureStrs[3]]}; {totalFree}; require {freeM}");
                 outputStatisticToConsole = true;
             }
 
@@ -107,25 +123,39 @@ class MainClass
                 outputStatisticToConsole = false;
                 Thread.Sleep(intervalForCheck);
 
-                kTime = 1f;
+                intervalForCheck = baseIntervalForCheck >> 2;
             }
             else
             {
-                // Общее количество свободной памяти делим на требуемое количество свободной памяти
-                kTime = (float) (totalFree - freeM) / (float) freeM;
+                var ifc = 0;
+                // Если осталось меньше половины запаса от freeM
+                if (totalFree - (freeM >> 1) <= freeM)
+                {
+                    ifc = baseIntervalForCheck >> 2;
+                }
+                else
+                // Если осталось меньше двух запасов
+                if (totalFree <= freeM << 1)
+                {
+                    ifc = baseIntervalForCheck >> 1;
+                }
+                else
+                // Если осталось больше двух с половиной запасов
+                if (totalFree - (freeM >> 1) <= freeM << 1)
+                {
+                    ifc = baseIntervalForCheck;
+                }
 
-                if (kTime < 0.25f)
-                    kTime = 0.25f;
+                if (ifc != 0)
+                    if (intervalForCheck != ifc)
+                    {
+                        Console.WriteLine($"new interval: {ifc}; old: {intervalForCheck}");
+                        intervalForCheck = ifc;
+                    }
             }
+
+            return outputStatisticToConsole;
         }
-
-        Console.WriteLine("exiting");
-        var pid = Process.Start("swapoff", "-a");
-        pid.WaitForExit();
-
-        deleteAllSwaps(swapF, sdel);
-        
-        return 0;
     }
 
     static void deleteAllSwaps(string pathTemplate, string sdel_path)
