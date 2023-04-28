@@ -64,7 +64,7 @@ class MainClass
 
         var exec = true;
         var Dict = new Dictionary<string, long>(2);
-        Console.CancelKeyPress += (sender, e) => exec = false;
+        Console  .CancelKeyPress            += (sender, e) => exec = false;
         AppDomain.CurrentDomain.ProcessExit += (sender, e) => exec = false;
 
         Console.WriteLine($"strated. '{swapL}'; '{freeM}'; '{swapF}'; '{sdel}'; {baseIntervalForCheck}.");
@@ -74,7 +74,7 @@ class MainClass
         while (exec)
         {
             outputStatisticToConsole = ProcessMemory();
-            GC.Collect();
+            // GC.Collect();
         }
 
         Console.WriteLine("exiting");
