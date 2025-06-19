@@ -10,6 +10,9 @@ WorkingDirectory=/Arcs/Repos/smalls/enswap/
 User=root
 Group=root
 
+MemoryAccounting=1
+MemoryHigh=64M
+
 Type=exec
 # Type=simple
 ExecStart=nice -n -1 /usr/local/sbin/enswap /Arcs/Repos/smalls/enswap/options
