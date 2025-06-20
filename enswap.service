@@ -1,4 +1,6 @@
 # /lib/systemd/system/enswap.service
+# cp /Arcs/Repos/smalls/enswap/enswap.service /lib/systemd/system/enswap.service
+# cp /Arcs/Repos/smalls/enswap/cpp/enswap /usr/local/sbin/enswap
 [Unit]
 Description=Enable swap (automatic swap expander)
 After=netfilter-persistent.service
@@ -10,14 +12,15 @@ WorkingDirectory=/Arcs/Repos/smalls/enswap/
 User=root
 Group=root
 
-MemoryAccounting=1
-MemoryHigh=64M
+# MemoryAccounting=1
+# MemoryHigh=64M
 
 Type=exec
 # Type=simple
 ExecStart=nice -n -1 /usr/local/sbin/enswap /Arcs/Repos/smalls/enswap/options
 SuccessExitStatus=0
 
+TimeoutStopSec=180
 # ExecStartPost=ionice -c 2 -n 0 -p `pidof enswap`
 
 
